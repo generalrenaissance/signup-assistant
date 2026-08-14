@@ -1,0 +1,5 @@
+node_modules/
+identity.json
+vendors/*.json
+!vendors/*.example.json
+*.txt
