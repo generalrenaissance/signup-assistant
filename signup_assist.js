@@ -41,7 +41,13 @@ async function humanType(page, sel, val) {
 
 // --auto: read ANY signup form and map it to identity.json. No per-vendor config needed.
 async function autoPlan(p) {
-  const id = JSON.parse(fs.readFileSync(path.join(__dirname, 'identity.json'), 'utf8'));
+  const idPath = path.join(__dirname, 'identity.json');
+  if (!fs.existsSync(idPath)) {
+    console.log(JSON.stringify({ stage: 'STOP', why:
+      'identity.json is missing. Copy identity.example.json to identity.json and fill in your details.' }));
+    process.exit(5);
+  }
+  const id = JSON.parse(fs.readFileSync(idPath, 'utf8'));
   const fields = (await p.evaluate(SCRAPE)).filter(f => f.visible && f.sel);
   const plan = { fields: {}, consents: [], unknown: [], missing: [] };
   const seen = new Set();
