@@ -41,6 +41,14 @@ for id in $(curl -s "http://localhost:$PORT/json" | sed -n 's/.*"id": "\([A-F0-9
   curl -s "http://localhost:$PORT/json/close/$id" >/dev/null 2>&1 || true
 done
 
+# 1Password's CLI authenticates from a service-account token that only some shells
+# export. Without it the run silently took the file fallback on a machine where
+# 1Password was available. Load it from the standard location when it is not set.
+if [ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && [ -r "$HOME/.config/op-service-account-token" ]; then
+  OP_SERVICE_ACCOUNT_TOKEN="$(< "$HOME/.config/op-service-account-token")"
+  export OP_SERVICE_ACCOUNT_TOKEN
+fi
+
 # password: generated here, passed only by env, never argv, never printed
 export SIGNUP_PW="$(python3 -c "import secrets,string;a=string.ascii_letters+string.digits+'!@#%^*-_';print(''.join(secrets.choice(a) for _ in range(24)))")"
 
