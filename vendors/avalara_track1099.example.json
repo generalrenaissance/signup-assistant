@@ -1,0 +1,22 @@
+{
+  "_note": "Example of a per-vendor override. NOT normally needed -- --auto reads this form correctly. Values must mirror identity.json; a stale override here silently beats the shared identity.",
+  "vendor": "Avalara 1099 & W-9 (Track1099)",
+  "url": "https://www.track1099.com/signup",
+  "port": 9355,
+  "fields": {
+    "#tax_name": "<from identity.json>",
+    "#first_name": "<from identity.json>",
+    "#last_name": "<from identity.json>",
+    "#email": "<from identity.json>",
+    "#password": "env:SIGNUP_PW",
+    "#phone_number": "<from identity.json>"
+  },
+  "selects": {
+    "#industry": "financ|profess|servic|consult"
+  },
+  "checkboxes": [
+    "#accept"
+  ],
+  "submit": "input[type=submit], button[type=submit]",
+  "waitMinutes": 10
+}
