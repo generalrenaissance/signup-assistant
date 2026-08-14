@@ -1,67 +1,130 @@
 # Signup assistant
 
-Fills in a vendor signup form for you. A person presses one button at the end.
+Fills in a signup form for you. You press one button at the end.
 
-It is not fully automatic and cannot be: signup pages score the browser to decide
-whether a human is filling the form. Measured across three browser configurations —
-headless, normal, and a normal browser on a profile with weeks of real history — all
-three were refused before anything was submitted, and `grecaptcha.execute()` returned
-no token at all. This project does not use CAPTCHA-solving services. So the tool does
-the tedious 95% and leaves the press to a person.
+You do not need to know anything technical. Follow the steps in order.
 
-## Setup
+---
 
-Requires **Node.js** and **Brave**, both free.
+## Part 1 — Set it up (once, about 5 minutes)
 
-```bash
-git clone https://github.com/generalrenaissance/signup-assistant.git
-cd signup-assistant
-npm install
-cp identity.example.json identity.json     # then fill in your details
-```
+### 1. Install Brave
 
-Or run `bash install.sh`, which does all of that and self-tests.
+A web browser. The tool needs its own, separate from the one you normally use, so it
+never touches your tabs or logins.
 
-## Use
+Go to **brave.com** → click Download Brave → open the file that downloads → drag the
+Brave icon into your Applications folder.
 
-```bash
-bash signup.sh https://example.com/signup --dry   # shows what it would type; types nothing
-bash signup.sh https://example.com/signup         # the real thing
-```
+### 2. Install Node.js
 
-A Brave window opens on a profile of its own and fills the form. When it stops,
-press the signup button in that window and solve a puzzle if one appears. The
-terminal then tells you whether the page accepted or refused it.
+The software this tool is built on. It has no window and you will never open it. It
+just needs to be there.
 
-## identity.json
+Go to **nodejs.org** → click the big green button on the **left**, marked LTS → open
+the file that downloads → click Continue, Agree and Install until it finishes. It will
+ask for your Mac password. That is normal for an installer.
 
-Your details, filled into every form. No secrets — the password is generated per
-signup and written to 1Password, or to a local file if the 1Password CLI is absent.
+### 3. Download this tool
 
-A `null` value means "we don't have this". If a form requires one, the tool STOPS
-rather than inventing it.
+At the top of this page click the green **Code** button, then **Download ZIP**.
 
-## How it reads a form
+The file goes to your Downloads folder.
 
-`detect_fields.js` matches each visible input by label, name, placeholder and
-autocomplete attribute, then maps it to an identity key. Checkboxes are never text
-targets. Where a form has no company field, a bare "Name" field is treated as the
-account holder — the company — rather than a person.
+### 4. Unzip it
 
-Per-vendor overrides live in `vendors/*.json` and are only needed when auto-detection
-misses.
+Open Downloads and double-click the file you just got. A folder called
+**signup-assistant-main** appears. Open it.
 
-## Known gaps
+Drag that folder somewhere you will find it again, like your Documents folder.
 
-- Forms rendered by JavaScript after load (Notion, HubSpot, PlusVibe) detect nothing yet.
-- The path after the human press has not been exercised end to end.
+### 5. Open it for the first time
 
-## Exit codes
+Inside is a file called **START HERE.command**.
 
-| Code | Meaning |
+A normal double-click will **not** work this first time. Apple blocks files downloaded
+from the internet and shows a warning. Nothing is wrong.
+
+Do this instead, once:
+
+1. Hold **Control** and click on START HERE.command
+2. Choose **Open**
+3. A box appears saying macOS cannot verify the developer
+4. Click **Open** in that box
+
+A black window opens and sets itself up. That takes about 20 seconds.
+
+### 6. Fill in your details
+
+The first run creates a file called **identity.json** and tells you to fill it in.
+
+Double-click it — it opens in TextEdit. You will see lines like:
+
+    "company": null,
+    "email": null,
+
+Replace each `null` with your own value **in quote marks**:
+
+    "company": "Your Company Ltd",
+    "email": "you@yourcompany.com",
+
+Save and close. Setup is done.
+
+---
+
+## Part 2 — Sign up somewhere (about a minute)
+
+1. Double-click **START HERE.command**
+2. It asks for a URL. Go to the vendor's signup page in your normal browser, copy the
+   address from the bar at the top, paste it in and press return
+3. Wait about 30 seconds. A Brave window opens with the whole form already filled in
+4. Press the **Sign Up** button in that window
+5. If a picture puzzle appears, solve it
+6. Look back at the black window — it tells you whether it worked
+
+You never type into the form. You never choose or see the password: one is created for
+you and saved to 1Password, or to a file in the folder if you do not have 1Password.
+
+---
+
+## Why you have to press the button
+
+Signup pages check whether a real person is filling the form in. There is no honest way
+around that check, and this tool does not use the services that fake it. So that one
+press stays with you. Everything else is done for you.
+
+---
+
+## If something goes wrong
+
+| What you see | What to do |
 |---|---|
-| 0 | Submitted |
-| 4 | Timed out — no press detected |
-| 5 | Stopped — a required field had no value |
-| 6 | The page refused the signup |
-| 7 | Could not save the password anywhere; nothing was submitted |
+| Nothing happens when you double-click | You skipped the Control-click in step 5 |
+| "Brave Browser is not installed" | Part 1, step 1 |
+| "Node.js is not installed" | Part 1, step 2 |
+| "identity.json still has blanks in it" | Part 1, step 6 |
+| The Brave window opens but the form stays empty | That site is not supported yet |
+| "a required field has no value" | Add that detail to identity.json |
+
+---
+
+<details>
+<summary>Technical notes</summary>
+
+`bash signup.sh <url> --dry` prints the fill plan and types nothing.
+
+`detect_fields.js` matches inputs by label, name, placeholder and autocomplete, then maps
+them to identity keys. Checkboxes are never text targets. Where a form has no company
+field, a bare "Name" field is treated as the account holder — the company. Per-vendor
+overrides live in `vendors/*.json` and are only needed when auto-detection misses.
+
+Exit codes: 0 submitted · 4 no press detected · 5 required field had no value ·
+6 the page refused it · 7 could not save the password, nothing submitted.
+
+Known gaps: forms rendered by JavaScript after load (Notion, HubSpot, PlusVibe) detect
+nothing yet; the path after the human press has not been exercised end to end.
+
+Not fully automatic because signup pages score the browser: measured across headless,
+normal, and a normal browser on a profile with weeks of real history — all refused, and
+`grecaptcha.execute()` returned no token at all. No CAPTCHA-solving services are used.
+</details>
