@@ -27,14 +27,17 @@ ask for your Mac password. That is normal for an installer.
 
 ### 3. Download this tool
 
-At the top of this page click the green **Code** button, then **Download ZIP**.
+Download **SignupAssistant-Mac.zip** from here:
 
-The file goes to your Downloads folder.
+https://github.com/generalrenaissance/signup-assistant/releases/latest
+
+Use that link, not the green Code button — a Code download arrives in a state macOS
+will not run.
 
 ### 4. Unzip it
 
 Open Downloads and double-click the file you just got. A folder called
-**signup-assistant-main** appears. Open it.
+**Signup Assistant** appears. Open it.
 
 Drag that folder somewhere you will find it again, like your Documents folder.
 
@@ -52,7 +55,7 @@ Do this instead, once:
 3. A box appears saying macOS cannot verify the developer
 4. Click **Open** in that box
 
-A black window opens and sets itself up. That takes about 20 seconds.
+A black window opens. That is the tool.
 
 ### 6. Fill in your details
 
