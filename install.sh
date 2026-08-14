@@ -42,6 +42,13 @@ fi
 say "Installing dependencies (about 20 seconds)"
 ( cd "$DEST" && npm install --silent --no-audit --no-fund ) || { say "npm install failed. Ask Claude."; exit 1; }
 
+# 3b. first run has no identity file — create it from the example and say so
+if [ ! -f "$DEST/identity.json" ]; then
+  cp "$DEST/identity.example.json" "$DEST/identity.json"
+  say "Created identity.json from the example."
+  say "Open it and fill in your company name, email and phone before the first real run."
+fi
+
 # 4. self-test: a dry run types nothing and submits nothing
 say "Checking it works..."
 OUT="$(cd "$DEST" && bash signup.sh "https://www.track1099.com/signup" --dry 2>&1)"
