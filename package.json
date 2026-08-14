@@ -1,0 +1,7 @@
+{
+  "name": "signup-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cold-signup assistant — fills any signup form, human clicks only the bot-check.",
+  "dependencies": { "puppeteer-core": "^23.0.0" }
+}
