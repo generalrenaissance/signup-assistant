@@ -1,0 +1,17 @@
+{
+  "_note": "Copy this file to identity.json and fill in your details before use. No secrets here -- the password is generated per signup. A null value makes the tool STOP rather than invent one.",
+  "company": null,
+  "first_name": null,
+  "last_name": null,
+  "full_name": null,
+  "email": null,
+  "phone": null,
+  "phone_e164": null,
+  "website": null,
+  "job_title": "Operations",
+  "country": "United States",
+  "address1": null,
+  "city": null,
+  "state": null,
+  "postcode": null
+}
